@@ -13,6 +13,7 @@ import { DirectionsService } from './directions/directions.service';
       useValue: new GoogleMapsClient()
     },
     DirectionsService
-  ]
+  ],
+  exports: [DirectionsService]
 } )
 export class MapsModule { }

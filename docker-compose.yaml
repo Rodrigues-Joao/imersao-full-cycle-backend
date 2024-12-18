@@ -1,7 +1,15 @@
 name: imersao-full-cycle
 
 services:
+  app:
+    container_name: nest-api
+    build: .
+    volumes:
+      - .:/home/node/app
+    ports:
+      - 3000:3000
   db:
+    container_name: mongodb
     build: ./.docker/mongodb
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
