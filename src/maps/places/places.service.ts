@@ -17,6 +17,7 @@ export class PlacesService
 
             }
         } )
+        console.log( "data = ", data )
         return data
     }
 }
