@@ -13,7 +13,6 @@ export class RoutesDriverConsumer
     {
         this.logger.log( `Receivingn from topic ${ payload.topic }`, payload.messageValue );
         const { amount, routeId } = payload.messageValue;
-
     }
 
 }
