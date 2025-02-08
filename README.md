@@ -40,6 +40,7 @@ $ npm run start
 
 # watch mode
 $ npm run start:dev
+$ npm run start:dev -- --entryFile=cmd/kafka.cmd
 
 # production mode
 $ npm run start:prod

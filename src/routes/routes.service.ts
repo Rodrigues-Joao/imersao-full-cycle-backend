@@ -70,7 +70,16 @@ export class RoutesService
 
     return route
   }
-
+  async startRoute( id: string )
+  {
+    await this.prismaService.route.findUniqueOrThrow( {
+      where: { id }
+    } )
+    await this.kafkaProducer.send( {
+      topic: 'route', messages:
+        [{ value: JSON.stringify( { eventName: "DeliveryStarted", routeId: id } ) }]
+    } )
+  }
   async findAll()
   {
     return await this.prismaService.route.findMany();

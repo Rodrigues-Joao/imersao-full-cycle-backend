@@ -1,7 +1,7 @@
-import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { RoutesService } from '../routes.service';
-import { resolve } from 'path';
-
+import { Server } from 'socket.io'
+import { Logger } from '@nestjs/common';
 @WebSocketGateway( {
   cors: {
     origin: "*"
@@ -9,6 +9,10 @@ import { resolve } from 'path';
 } )
 export class RoutesDriverGateway
 {
+  @WebSocketServer()
+  server: Server
+
+  private readonly logger = new Logger( RoutesDriverGateway.name );
   constructor( private routesService: RoutesService )
   {
 
@@ -33,5 +37,13 @@ export class RoutesDriverGateway
 
     }
   }
+  emitNewPoints( payload: { routeId: string, lat: number, lng: number } )
+  {
+    const { routeId, lat, lng } = payload
+    this.logger.log( `server:new-points/${ routeId }:list` )
+    this.server.emit( `server:new-points/${ routeId }:list`, { routeId, lat, lng } )
+    this.server.emit( `server:new-points:list`, { routeId, lat, lng } )
+  }
+
 }
 const sleep = ( ms: number ) => new Promise( resolve => setTimeout( resolve, ms ) )
